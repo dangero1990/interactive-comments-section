@@ -47,6 +47,7 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
           <img
             src={user.image.png || user.image.webp}
             className='user max-w-[50px] max-h-[50px]'
+            alt={user.username}
           />
           <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{user.username}</span>
           <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
