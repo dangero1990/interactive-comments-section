@@ -35,7 +35,7 @@ export function Likes({ score }: { score: number }) {
   );
 }
 
-export default function Card({ id, content, createdAt, score, image, username, replies }: Comment) {
+export default function Card({ id, content, createdAt, score, user, replies }: Comment) {
   return (
     <section>
       <article
@@ -45,10 +45,10 @@ export default function Card({ id, content, createdAt, score, image, username, r
         <Likes score={score} />
         <div className='flex flex-1 h-min'>
           <img
-            src={image}
+            src={user.image.png || user.image.webp}
             className='user max-w-[50px] max-h-[50px]'
           />
-          <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{username}</span>
+          <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{user.username}</span>
           <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
           <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
         </div>
@@ -58,12 +58,12 @@ export default function Card({ id, content, createdAt, score, image, username, r
         {replies &&
           replies.map((reply) => (
             <Reply
+              key={reply.id}
               id={reply.id}
               score={reply.score}
               content={reply.content}
               createdAt={reply.createdAt}
-              username={reply.user.username}
-              image={reply.user.image.png || reply.user.image.webp}
+              user={reply.user}
               replyingTo={reply.replyingTo}
             />
           ))}

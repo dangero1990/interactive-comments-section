@@ -1,18 +1,37 @@
-export type User = {
+export interface User {
   image: {
     png: string;
     webp: string;
   };
   username: string;
-};
+}
 
-export type Comment = {
+export interface Comment {
   id: string;
   content: string;
   createdAt: string;
   score: number;
-  image: string;
-  username: string;
-  replies?: object[];
-  replyingTo?: string;
-};
+  user: {
+    image: {
+      png: string;
+      webp: string;
+    };
+    username: string;
+  };
+  replies?: Reply[];
+}
+
+export interface Reply {
+  id: string;
+  content: string;
+  createdAt: string;
+  score: number;
+  user: {
+    image: {
+      png: string;
+      webp: string;
+    };
+    username: string;
+  };
+  replyingTo: string;
+}

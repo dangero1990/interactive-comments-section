@@ -1,7 +1,7 @@
-import { Comment } from '../lib/definitions';
+import { Reply } from '../lib/definitions';
 import { Likes } from './Card';
 
-export default function Reply({ id, content, createdAt, score, replyingTo, username, image }: Comment) {
+export default function Reply({ id, content, createdAt, score, replyingTo, user }: Reply) {
   return (
     <article
       id={id}
@@ -10,10 +10,10 @@ export default function Reply({ id, content, createdAt, score, replyingTo, usern
       <Likes score={score} />
       <div className='flex flex-1 h-min'>
         <img
-          src={image}
+          src={user.image.png || user.image.webp}
           className='user max-w-[50px] max-h-[50px]'
         />
-        <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{username}</span>
+        <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{user.username}</span>
         <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
         <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
       </div>
