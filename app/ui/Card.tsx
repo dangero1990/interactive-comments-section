@@ -5,7 +5,7 @@ import Response from './Reponse';
 
 export function Likes({ score }: { score: number }) {
   return (
-    <aside className='likes mr-[2em] bg-Very_light_gray p-[1em] rounded-xl h-min'>
+    <aside className='likes mr-[2em] bg-Very_light_gray p-[1em] rounded-xl h-min w-min'>
       <button className='block mb-[1em] ml-auto mr-auto'>
         <svg
           width='11'
@@ -66,7 +66,13 @@ export default function Card({ id, content, createdAt, score, user, replies, cur
         <p className='comment mt-[1em]'>{content}</p>
       </li>
       <ul className='border-l-4 border-Grayish_blue max-w-[95%] ml-auto pl-20'>
-        {response && <Response currentUser={currentUser} />}
+        {response && (
+          <Response
+            currentUser={currentUser}
+            userReplies={userReplies}
+            setUserReplies={setUserReplies}
+          />
+        )}
         {userReplies &&
           userReplies.map((reply) => (
             <Reply

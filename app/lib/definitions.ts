@@ -34,10 +34,12 @@ export interface Reply {
     };
     username: string;
   };
-  replyingTo: string;
+  replyingTo?: string | undefined;
   currentUser: CurrentUser;
 }
 
 export interface Response {
   currentUser: CurrentUser;
+  setUserReplies?: (replies: Reply[]) => void;
+  userReplies?: Reply[];
 }

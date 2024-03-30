@@ -21,6 +21,7 @@
 
 .card {
   display: grid;
+  grid-template-columns: min-content 1fr;
   grid-template-areas:
     'likes user'
     'likes comment';
