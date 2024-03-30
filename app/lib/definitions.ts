@@ -1,4 +1,4 @@
-export interface User {
+export interface CurrentUser {
   image: {
     png: string;
     webp: string;
@@ -19,6 +19,7 @@ export interface Comment {
     username: string;
   };
   replies?: Reply[];
+  currentUser: CurrentUser;
 }
 
 export interface Reply {
@@ -34,4 +35,9 @@ export interface Reply {
     username: string;
   };
   replyingTo: string;
+  currentUser: CurrentUser;
+}
+
+export interface Response {
+  currentUser: CurrentUser;
 }

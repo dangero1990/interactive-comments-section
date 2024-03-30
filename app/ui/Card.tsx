@@ -1,5 +1,7 @@
 import { Comment } from '../lib/definitions';
 import Reply from './Reply';
+import { useState } from 'react';
+import Response from './Reponse';
 
 export function Likes({ score }: { score: number }) {
   return (
@@ -35,10 +37,13 @@ export function Likes({ score }: { score: number }) {
   );
 }
 
-export default function Card({ id, content, createdAt, score, user, replies }: Comment) {
+export default function Card({ id, content, createdAt, score, user, replies, currentUser }: Comment) {
+  const [response, setResponse] = useState(false);
+  const [userReplies, setUserReplies] = useState(replies);
+
   return (
-    <section>
-      <article
+    <>
+      <li
         id={id}
         className='bg-White p-8 rounded-xl card mt-[2em] min-w-[100%]'
       >
@@ -51,13 +56,19 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
           />
           <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{user.username}</span>
           <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
-          <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
+          <button
+            className='reply text-Moderate_blue mt-auto mb-auto ml-auto'
+            onClick={() => setResponse(!response)}
+          >
+            Reply
+          </button>
         </div>
         <p className='comment mt-[1em]'>{content}</p>
-      </article>
-      <article className='border-l-4 border-Grayish_blue max-w-[95%] ml-auto'>
-        {replies &&
-          replies.map((reply) => (
+      </li>
+      <ul className='border-l-4 border-Grayish_blue max-w-[95%] ml-auto pl-20'>
+        {response && <Response currentUser={currentUser} />}
+        {userReplies &&
+          userReplies.map((reply) => (
             <Reply
               key={reply.id}
               id={reply.id}
@@ -66,9 +77,10 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
               createdAt={reply.createdAt}
               user={reply.user}
               replyingTo={reply.replyingTo}
+              currentUser={currentUser}
             />
           ))}
-      </article>
-    </section>
+      </ul>
+    </>
   );
 }
