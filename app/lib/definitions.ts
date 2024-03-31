@@ -44,8 +44,8 @@ export interface Response {
   currentUser: CurrentUser;
   setUserReplies?: Dispatch<SetStateAction<Reply[]>>;
   setResponse?: Dispatch<SetStateAction<boolean>>;
-  userComments?: Comment[] | undefined;
+  userComments?: Comment[];
   setUserComments?: Dispatch<SetStateAction<Comment[]>>;
-  userReplies: Reply[];
+  userReplies?: Reply[];
   button: string;
 }
