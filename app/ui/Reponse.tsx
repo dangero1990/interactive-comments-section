@@ -6,7 +6,7 @@ export default function Response({ currentUser, userReplies, setUserReplies, set
 
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const responseValue = newResponse.current?.value;
+    let responseValue = newResponse.current?.value;
     if (!responseValue) return;
 
     const newReply = {
@@ -27,12 +27,13 @@ export default function Response({ currentUser, userReplies, setUserReplies, set
 
     if (button === 'REPLY') {
       setUserReplies?.((prevReplies) => (prevReplies ? [...prevReplies, newReply] : [newReply]));
+      setResponse?.((prevResponse) => !prevResponse);
     }
 
     if (button === 'SEND') {
       setUserComments?.((prevComments) => (prevComments ? [...prevComments, newReply] : [newReply]));
+      if (newResponse.current) newResponse.current.value = '';
     }
-    setResponse?.((prevResponse) => !prevResponse);
   }
 
   return (
