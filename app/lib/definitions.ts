@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface CurrentUser {
   image: {
     png: string;
@@ -7,7 +9,7 @@ export interface CurrentUser {
 }
 
 export interface Comment {
-  id: string;
+  id: number;
   content: string;
   createdAt: string;
   score: number;
@@ -18,12 +20,12 @@ export interface Comment {
     };
     username: string;
   };
-  replies?: Reply[];
+  replies: Reply[];
   currentUser: CurrentUser;
 }
 
 export interface Reply {
-  id: string;
+  id: number | undefined;
   content: string;
   createdAt: string;
   score: number;
@@ -35,11 +37,15 @@ export interface Reply {
     username: string;
   };
   replyingTo?: string | undefined;
-  currentUser: CurrentUser;
+  currentUser?: CurrentUser;
 }
 
 export interface Response {
   currentUser: CurrentUser;
-  setUserReplies?: (replies: Reply[]) => void;
-  userReplies?: Reply[];
+  setUserReplies?: Dispatch<SetStateAction<Reply[]>>;
+  setResponse?: Dispatch<SetStateAction<boolean>>;
+  userComments?: Comment[] | undefined;
+  setUserComments?: Dispatch<SetStateAction<Comment[]>>;
+  userReplies: Reply[];
+  button: string;
 }

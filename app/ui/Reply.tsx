@@ -4,7 +4,7 @@ import { Likes } from './Card';
 export default function Reply({ id, content, createdAt, score, replyingTo, user }: Reply) {
   return (
     <li
-      id={id}
+      id={`${user.username}${id}`}
       className='bg-White p-8 rounded-xl card mt-[2em] ml-auto'
     >
       <Likes score={score} />
@@ -19,7 +19,7 @@ export default function Reply({ id, content, createdAt, score, replyingTo, user 
         <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
       </div>
       <p className='comment mt-[1em]'>
-        <span className='text-Moderate_blue font-bold'>{`@${replyingTo}`}</span>
+        <span className='text-Moderate_blue font-bold'>{replyingTo && `@${replyingTo}`}</span>
         {` ${content}`}
       </p>
     </li>

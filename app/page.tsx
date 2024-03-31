@@ -3,17 +3,19 @@
 import Card from './ui/Card';
 import Response from './ui/Reponse';
 import data from './lib/data.json';
+import { useState } from 'react';
 
 export default function Home() {
-  const userComments: any[] = data.comments;
+  const dataComments: any[] = data.comments;
+  const [userComments, setUserComments] = useState(dataComments);
 
   return (
     <main className='w-[80%] m-auto'>
       <ul>
         {userComments.map((comment) => (
           <Card
-            key={comment.id}
-            id={comment.id}
+            key={Number(comment.id)}
+            id={Number(comment.id)}
             content={comment.content}
             createdAt={comment.createdAt}
             score={comment.score}
@@ -23,7 +25,12 @@ export default function Home() {
           />
         ))}
       </ul>
-      <Response currentUser={data.currentUser} />
+      <Response
+        currentUser={data.currentUser}
+        button={'SEND'}
+        userComments={userComments}
+        setUserComments={setUserComments}
+      />
     </main>
   );
 }

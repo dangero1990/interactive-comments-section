@@ -44,7 +44,7 @@ export default function Card({ id, content, createdAt, score, user, replies, cur
   return (
     <>
       <li
-        id={id}
+        id={`${user.username}${id}`}
         className='bg-White p-8 rounded-xl card mt-[2em] min-w-[100%]'
       >
         <Likes score={score} />
@@ -71,6 +71,8 @@ export default function Card({ id, content, createdAt, score, user, replies, cur
             currentUser={currentUser}
             userReplies={userReplies}
             setUserReplies={setUserReplies}
+            button={'REPLY'}
+            setResponse={setResponse}
           />
         )}
         {userReplies &&
