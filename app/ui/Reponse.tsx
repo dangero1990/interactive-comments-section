@@ -1,5 +1,6 @@
 import type { Response } from '../lib/definitions';
 import { useRef } from 'react';
+import { extractReplyTo } from '../lib/utils';
 
 export default function Response({ currentUser, userReplies, setUserReplies, setResponse, userComments, setUserComments, button }: Response) {
   let newResponse = useRef<HTMLTextAreaElement>(null);
@@ -7,7 +8,11 @@ export default function Response({ currentUser, userReplies, setUserReplies, set
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     let responseValue = newResponse.current?.value;
-    if (!responseValue) return;
+    if (!responseValue) {
+      setResponse?.((prevResponse) => !prevResponse);
+      return;
+    }
+    const replyTo = extractReplyTo(responseValue);
 
     const newReply = {
       id: button === 'REPLY' ? (userReplies ? userReplies.length + 1 : 1) : userComments ? userComments.length + 1 : 1,
@@ -23,6 +28,7 @@ export default function Response({ currentUser, userReplies, setUserReplies, set
       },
       replies: [],
       currentUser: currentUser,
+      replyingTo: replyTo,
     };
 
     if (button === 'REPLY') {

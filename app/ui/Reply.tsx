@@ -1,5 +1,6 @@
 import type { Reply } from '../lib/definitions';
 import { Likes } from './Card';
+import ContentBuilder from './ContentBuilder';
 
 export default function Reply({ id, content, createdAt, score, replyingTo, user }: Reply) {
   return (
@@ -18,10 +19,7 @@ export default function Reply({ id, content, createdAt, score, replyingTo, user 
         <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
         <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
       </div>
-      <p className='comment mt-[1em]'>
-        <span className='text-Moderate_blue font-bold'>{replyingTo && `@${replyingTo}`}</span>
-        {` ${content}`}
-      </p>
+      {ContentBuilder(content, replyingTo)}
     </li>
   );
 }

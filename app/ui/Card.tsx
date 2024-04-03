@@ -4,9 +4,13 @@ import { useState } from 'react';
 import Response from './Reponse';
 
 export function Likes({ score }: { score: number }) {
+  const [like, setLike] = useState(score);
   return (
     <aside className='likes mr-[2em] bg-Very_light_gray p-[1em] rounded-xl h-min w-min'>
-      <button className='block mb-[1em] ml-auto mr-auto'>
+      <button
+        className='block mb-[1em] ml-auto mr-auto'
+        onClick={() => setLike((prevLike) => prevLike + 1)}
+      >
         <svg
           width='11'
           height='11'
@@ -19,8 +23,11 @@ export function Likes({ score }: { score: number }) {
           />
         </svg>
       </button>
-      <span className='center text-Moderate_blue'>{score}</span>
-      <button className='block mt-[1em] ml-auto mr-auto'>
+      <span className='center text-Moderate_blue'>{like}</span>
+      <button
+        className='block mt-[1em] ml-auto mr-auto'
+        onClick={() => setLike((prevLike) => prevLike - 1)}
+      >
         <svg
           width='11'
           height='3'
