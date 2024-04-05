@@ -44,7 +44,7 @@ export function Likes({ score }: { score: number }) {
   );
 }
 
-export default function Card({ id, content, createdAt, score, user, replies, currentUser }: Comment) {
+export default function Card({ id, content, createdAt, score, user, replies }: Comment) {
   const [response, setResponse] = useState(false);
   const [userReplies, setUserReplies] = useState(replies);
 
@@ -75,7 +75,6 @@ export default function Card({ id, content, createdAt, score, user, replies, cur
       <ul className='border-l-4 border-Grayish_blue max-w-[95%] ml-auto pl-20'>
         {response && (
           <Response
-            currentUser={currentUser}
             userReplies={userReplies}
             setUserReplies={setUserReplies}
             button={'REPLY'}
@@ -92,7 +91,6 @@ export default function Card({ id, content, createdAt, score, user, replies, cur
               createdAt={reply.createdAt}
               user={reply.user}
               replyingTo={reply.replyingTo}
-              currentUser={currentUser}
             />
           ))}
       </ul>

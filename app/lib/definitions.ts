@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 
+export interface UserContextType {
+  currentUser: CurrentUser;
+  userComments: Comment[];
+  setUserComments: Dispatch<SetStateAction<Comment[]>>;
+}
+
 export interface CurrentUser {
   image: {
     png: string;
@@ -11,7 +17,7 @@ export interface CurrentUser {
 export interface Comment {
   id: number;
   content: string;
-  createdAt: string;
+  createdAt: string | undefined;
   score: number;
   user: {
     image: {
@@ -21,13 +27,12 @@ export interface Comment {
     username: string;
   };
   replies: Reply[];
-  currentUser: CurrentUser;
 }
 
 export interface Reply {
   id: number | undefined;
   content: string;
-  createdAt: string;
+  createdAt: string | undefined;
   score: number;
   user: {
     image: {
@@ -36,12 +41,10 @@ export interface Reply {
     };
     username: string;
   };
-  replyingTo?: string | undefined;
-  currentUser?: CurrentUser;
+  replyingTo?: string | null;
 }
 
 export interface Response {
-  currentUser: CurrentUser;
   setUserReplies?: Dispatch<SetStateAction<Reply[]>>;
   setResponse?: Dispatch<SetStateAction<boolean>>;
   userComments?: Comment[];

@@ -1,9 +1,12 @@
 import type { Response } from '../lib/definitions';
-import { useRef } from 'react';
-import { extractReplyTo } from '../lib/utils';
+import { useRef, useContext } from 'react';
+import { extractReplyTo, dayBuilder } from '../lib/utils';
+import { UserContext } from '../page';
+import type { UserContextType } from '../lib/definitions';
 
-export default function Response({ currentUser, userReplies, setUserReplies, setResponse, userComments, setUserComments, button }: Response) {
+export default function Response({ userReplies, setUserReplies, setResponse, button }: Response) {
   let newResponse = useRef<HTMLTextAreaElement>(null);
+  const { currentUser, userComments, setUserComments } = useContext<UserContextType>(UserContext);
 
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -17,7 +20,7 @@ export default function Response({ currentUser, userReplies, setUserReplies, set
     const newReply = {
       id: button === 'REPLY' ? (userReplies ? userReplies.length + 1 : 1) : userComments ? userComments.length + 1 : 1,
       content: responseValue,
-      createdAt: new Date().toLocaleString(),
+      createdAt: dayBuilder(new Date()),
       score: 0,
       user: {
         image: {

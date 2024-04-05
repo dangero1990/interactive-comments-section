@@ -1,8 +1,13 @@
 import type { Reply } from '../lib/definitions';
 import { Likes } from './Card';
 import ContentBuilder from './ContentBuilder';
+import { useContext } from 'react';
+import { UserContext } from '../page';
+import Response from './Reponse';
 
 export default function Reply({ id, content, createdAt, score, replyingTo, user }: Reply) {
+  const { currentUser } = useContext(UserContext);
+
   return (
     <li
       id={`${user.username}${id}`}
@@ -17,9 +22,12 @@ export default function Reply({ id, content, createdAt, score, replyingTo, user 
         />
         <span className='font-bold text-Moderate_blue mt-auto mb-auto ml-[1em]'>{user.username}</span>
         <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
-        <button className='reply text-Moderate_blue mt-auto mb-auto ml-auto'>Reply</button>
+        <div className='ml-auto mt-auto mb-auto'>
+          {currentUser.username === user.username && <button className='delete text-Soft_Red'>DELETE</button>}
+          {currentUser.username === user.username ? <button className='edit ml-4 text-Moderate_blue'>EDIT</button> : <button className='reply text-Moderate_blue'>Reply</button>}
+        </div>
       </div>
-      {ContentBuilder(content, replyingTo)}
+      {ContentBuilder(content, replyingTo ? replyingTo : '')}
     </li>
   );
 }

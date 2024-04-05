@@ -39,3 +39,13 @@
   content: url('/images/icon-reply.svg');
   margin-right: 0.5em;
 }
+
+.delete::before {
+  content: url('/images/icon-delete.svg');
+  margin-right: 0.5em;
+}
+
+.edit::before {
+  content: url('/images/icon-edit.svg');
+  margin-right: 0.5em;
+}
