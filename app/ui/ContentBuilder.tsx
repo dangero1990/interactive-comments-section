@@ -1,4 +1,4 @@
-export default function buildContent(content: string, replyingTo?: string) {
+export default function ContentBuilder(content: string, replyingTo?: string) {
   const usernameRef = `@${replyingTo}`;
   if (content.includes(usernameRef) && usernameRef.length > 2) {
     const partOne = content.slice(0, content.indexOf(usernameRef));

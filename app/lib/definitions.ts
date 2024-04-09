@@ -15,7 +15,7 @@ export interface CurrentUser {
 }
 
 export interface Comment {
-  id: number;
+  id: number | string;
   content: string;
   createdAt: string | undefined;
   score: number;
@@ -30,7 +30,7 @@ export interface Comment {
 }
 
 export interface Reply {
-  id: number | undefined;
+  id: number | string;
   content: string;
   createdAt: string | undefined;
   score: number;
@@ -41,14 +41,15 @@ export interface Reply {
     };
     username: string;
   };
-  replyingTo?: string | null;
+  replyingTo: string;
+  userReplies?: Reply[] | undefined;
+  setUserReplies?: Dispatch<SetStateAction<Reply[]>>;
 }
 
 export interface Response {
+  userReplies?: Reply[];
   setUserReplies?: Dispatch<SetStateAction<Reply[]>>;
   setResponse?: Dispatch<SetStateAction<boolean>>;
-  userComments?: Comment[];
-  setUserComments?: Dispatch<SetStateAction<Comment[]>>;
-  userReplies?: Reply[];
   button: string;
+  replyingTo?: string;
 }

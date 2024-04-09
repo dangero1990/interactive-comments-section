@@ -2,11 +2,14 @@ import type { Response } from '../lib/definitions';
 import { useRef, useContext } from 'react';
 import { extractReplyTo, dayBuilder } from '../lib/utils';
 import { UserContext } from '../page';
+import { CardContext } from '../ui/Card';
 import type { UserContextType } from '../lib/definitions';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function Response({ userReplies, setUserReplies, setResponse, button }: Response) {
+export default function Response({ setResponse, button, replyingTo, editMode, setEditMode, content, id, score }: Response) {
   let newResponse = useRef<HTMLTextAreaElement>(null);
-  const { currentUser, userComments, setUserComments } = useContext<UserContextType>(UserContext);
+  const { currentUser, setUserComments } = useContext<UserContextType>(UserContext);
+  const { userReplies, setUserReplies } = useContext(CardContext);
 
   function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -15,13 +18,13 @@ export default function Response({ userReplies, setUserReplies, setResponse, but
       setResponse?.((prevResponse) => !prevResponse);
       return;
     }
-    const replyTo = extractReplyTo(responseValue);
+    const replyTo = extractReplyTo(responseValue, replyingTo ? replyingTo : '');
 
     const newReply = {
-      id: button === 'REPLY' ? (userReplies ? userReplies.length + 1 : 1) : userComments ? userComments.length + 1 : 1,
+      id: editMode ? id : uuidv4(),
       content: responseValue,
-      createdAt: dayBuilder(new Date()),
-      score: 0,
+      createdAt: editMode ? `Edited: ${dayBuilder(new Date())}` : dayBuilder(new Date()),
+      score: editMode ? score : 0,
       user: {
         image: {
           png: currentUser.image.png,
@@ -34,9 +37,14 @@ export default function Response({ userReplies, setUserReplies, setResponse, but
       replyingTo: replyTo,
     };
 
+    if (editMode) {
+      setUserReplies?.((prevReplies) => prevReplies.filter((reply) => reply.id !== id));
+    }
+
     if (button === 'REPLY') {
       setUserReplies?.((prevReplies) => (prevReplies ? [...prevReplies, newReply] : [newReply]));
       setResponse?.((prevResponse) => !prevResponse);
+      if (editMode) setEditMode(false);
     }
 
     if (button === 'SEND') {
@@ -60,6 +68,7 @@ export default function Response({ userReplies, setUserReplies, setResponse, but
           <textarea
             ref={newResponse}
             className='resize-none border-2 border-Grayish_blue min-h-10 rounded-md p-2 w-full'
+            defaultValue={editMode ? content : ''}
           ></textarea>
           <button
             type='submit'

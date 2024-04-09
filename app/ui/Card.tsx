@@ -1,7 +1,14 @@
 import { Comment } from '../lib/definitions';
 import Reply from './Reply';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import Response from './Reponse';
+
+const defaultValues = {
+  userReplies: '',
+  setUserReplies: () => {},
+};
+
+export const CardContext = createContext(defaultValues);
 
 export function Likes({ score }: { score: number }) {
   const [like, setLike] = useState(score);
@@ -48,8 +55,12 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
   const [response, setResponse] = useState(false);
   const [userReplies, setUserReplies] = useState(replies);
 
+  function addResponse() {
+    setResponse((prevResponse) => !prevResponse);
+  }
+
   return (
-    <>
+    <CardContext.Provider value={{ userReplies, setUserReplies }}>
       <li
         id={`${user.username}${id}`}
         className='bg-White p-8 rounded-xl card mt-[2em] min-w-[100%]'
@@ -65,7 +76,7 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
           <span className='text-Light_grayish_blue mt-auto mb-auto ml-[1em]'>{createdAt}</span>
           <button
             className='reply text-Moderate_blue mt-auto mb-auto ml-auto'
-            onClick={() => setResponse(!response)}
+            onClick={addResponse}
           >
             Reply
           </button>
@@ -79,6 +90,7 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
             setUserReplies={setUserReplies}
             button={'REPLY'}
             setResponse={setResponse}
+            replyingTo={user.username}
           />
         )}
         {userReplies &&
@@ -94,6 +106,6 @@ export default function Card({ id, content, createdAt, score, user, replies }: C
             />
           ))}
       </ul>
-    </>
+    </CardContext.Provider>
   );
 }
